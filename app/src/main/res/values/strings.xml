@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Emblocamento</string>
+    <string name="txtCriador">Luiz Fernando Silva</string>
+    <string name="DataAtual">30/06/2020</string>
+    <string name="HoraAtual">16:42</string>
+    <string name="btnEmblocar">Emblocamento</string>
+    <string name="btnVoltar">Menu principal</string>
+    <string name="btnCapturar">Iniciar leitura de códigos</string>
+    <string name="txtCodigoLido">Código Lido</string>
+    <string name="txtCodigo"></string>
+    <string name="txtCodigoBloco">Código Bloco</string>
+    <string name="txtBloco"></string>
+    <string name="btnAtualizar">Atualizar Dados</string>
+    <string name="swhflash">swhFlash</string>
+    <string name="turn_off_flashlight">turn_off_flashlight</string>
+    <string name="turn_on_flashlight">turn_on_flashlight</string>
+</resources>
