@@ -14,6 +14,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import br.com.grupoirmaosfranciosi.appmodelo.R;
+import br.com.grupoirmaosfranciosi.appmodelo.api.appConstants;
 import br.com.grupoirmaosfranciosi.appmodelo.controller.FardosController;
 import br.com.grupoirmaosfranciosi.appmodelo.model.Emblocamento;
 
@@ -60,6 +61,9 @@ public class ConsultaActivity extends AppCompatActivity {
     public void escanear(){
         IntentIntegrator intent = new IntentIntegrator(this);
         //intent.forSupportFragment();
+        intent.setCaptureActivity(TorchOnCaptureActivity.class);
+        intent.addExtra(appConstants.CAMERA_FLASH_ON,false);
+        intent.setOrientationLocked(false);
         intent.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
         intent.setPrompt("Ler código de barra");
         intent.setCameraId(0);
@@ -71,7 +75,7 @@ public class ConsultaActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
