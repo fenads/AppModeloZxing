@@ -2,6 +2,8 @@ package br.com.grupoirmaosfranciosi.appmodelo.view;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -96,6 +98,7 @@ public class ConsultaActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("SetTextI18n")
     public void Bloco(){
 
         try {
@@ -110,6 +113,10 @@ public class ConsultaActivity extends AppCompatActivity {
                 String retorno = emblocamento.getNUM_BLOCO().toString();
                 txtBloco.setText(retorno);
                 //txtBloco.setText(emblocamento.getNUM_BLOCO().toString());
+                if (retorno.equals("0") ){
+                    txtBloco.setText("Bloco não localizado");
+                    txtBloco.setTextColor(getResources().getColor(R.color.alerta));
+                }
 
             }
         }catch (Exception e){
