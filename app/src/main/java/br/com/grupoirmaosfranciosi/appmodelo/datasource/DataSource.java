@@ -2,6 +2,8 @@ package br.com.grupoirmaosfranciosi.appmodelo.datasource;
 
 import android.content.ContentValues;
 import android.content.Context;
+
+import br.com.grupoirmaosfranciosi.appmodelo.api.AppUtil;
 import br.com.grupoirmaosfranciosi.appmodelo.datamodel.EmblocamentoDataModel;
 import br.com.grupoirmaosfranciosi.appmodelo.model.Emblocamento;
 import android.database.Cursor;
@@ -16,7 +18,7 @@ import java.util.List;
 
 public class DataSource extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "Fardos";
+    private static final String DB_NAME = "Emblocamento";
     private static final int DB_VERSION = 1;
 
     Cursor cursor;
@@ -108,8 +110,8 @@ public class DataSource extends SQLiteOpenHelper {
                 obj = new Emblocamento();
 
                 obj.setCOD_BARRA_GS1(cursor.getString(cursor.getColumnIndex(EmblocamentoDataModel.getCodBarraGs1())));
-                obj.setNUM_FARDO(cursor.getInt(cursor.getColumnIndex(EmblocamentoDataModel.getNumFardo())));
                 obj.setNUM_BLOCO(cursor.getInt(cursor.getColumnIndex(EmblocamentoDataModel.getNumBloco())));
+                obj.setNUM_FARDO(cursor.getInt(cursor.getColumnIndex(EmblocamentoDataModel.getNumFardo())));
 
                 lista.add(obj);
 
@@ -151,13 +153,56 @@ public class DataSource extends SQLiteOpenHelper {
             if(cursor.moveToNext()){
 
                 emblocamento.setCOD_BARRA_GS1(cursor.getString(cursor.getColumnIndex(EmblocamentoDataModel.getCodBarraGs1())));
-                emblocamento.setNUM_FARDO(cursor.getInt(cursor.getColumnIndex(EmblocamentoDataModel.getNumFardo())));
                 emblocamento.setNUM_BLOCO(cursor.getInt(cursor.getColumnIndex(EmblocamentoDataModel.getNumBloco())));
+                emblocamento.setNUM_FARDO(cursor.getInt(cursor.getColumnIndex(EmblocamentoDataModel.getNumFardo())));
             }
         }catch (SQLException e){
             Log.e("BuscarFardos","Erro Buscar Fardos "+e.getMessage());
         }
 
         return emblocamento;
+    }
+
+
+    public List<Emblocamento> list(String tabela) {
+
+        List<Emblocamento> list = new ArrayList<>();
+
+        Emblocamento emblocamento;
+
+        // Select no banco de dados
+        // SELECT * FROM tabela
+
+        String sql = "SELECT * FROM " + tabela;
+
+        try {
+
+            cursor = db.rawQuery(sql, null);
+
+            if (cursor.moveToFirst()) {
+
+                do {
+
+                    emblocamento = new Emblocamento();
+
+                    emblocamento.setCOD_BARRA_GS1(cursor.getString(cursor.getColumnIndex(EmblocamentoDataModel.getCodBarraGs1())));
+                    emblocamento.setNUM_BLOCO(cursor.getInt(cursor.getColumnIndex(EmblocamentoDataModel.getNumBloco())));
+                    emblocamento.setNUM_FARDO(cursor.getInt(cursor.getColumnIndex(EmblocamentoDataModel.getNumFardo())));
+
+                    list.add(emblocamento);
+
+                } while (cursor.moveToNext());
+
+                Log.i(AppUtil.LOG_APP, tabela + " lista gerada com sucesso.");
+
+            }
+
+        } catch (SQLException e) {
+
+            Log.e(AppUtil.LOG_APP, "Erro ao listar os dados: " + tabela);
+            Log.e(AppUtil.LOG_APP, "Erro: " + e.getMessage());
+        }
+
+        return list;
     }
 }

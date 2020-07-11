@@ -1,6 +1,8 @@
 package br.com.grupoirmaosfranciosi.appmodelo.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +12,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -31,68 +34,73 @@ import br.com.grupoirmaosfranciosi.appmodelo.controller.FardosController;
 import br.com.grupoirmaosfranciosi.appmodelo.datamodel.EmblocamentoDataModel;
 import br.com.grupoirmaosfranciosi.appmodelo.model.Emblocamento;
 
-public class MainActivity extends AppCompatActivity {
+public class MainMaterialActivity extends AppCompatActivity {
 
+    //Variavel
     SharedPreferences sharedpreferences;
     FardosController controller;
     Context context;
-    //Variaveis
-    TextView txtHoraAtual;
-    TextView txtDataAtual;
-    Button btnEmblocar;
-    Button btnAtualiza;
-    Button btnConfigurar;
     String local;
     String portaCon;
     String ipCon;
 
+    public CardView listarCard,configurarCard,atualizarCard,emblocarCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_material);
 
+        //Definindo Cards
+        listarCard = (CardView) findViewById(R.id.listarId);
+        configurarCard = (CardView) findViewById(R.id.configurarId);
+        atualizarCard = (CardView) findViewById(R.id.atualizarId);
+        emblocarCard = (CardView) findViewById(R.id.emblocarId);
 
         //Hooks
         context = getBaseContext();
         controller = new FardosController(context);
 
-        txtDataAtual = findViewById(R.id.textDataAtual);
-        txtHoraAtual = findViewById(R.id.textHoraAtual);
-        btnEmblocar = findViewById(R.id.btnEmblocar);
-        btnAtualiza = findViewById(R.id.btnAtualiza);
-        btnConfigurar = findViewById(R.id.btnConfigurar);
-
-
-
-        txtDataAtual.setText(AppUtil.getDataAtual());
-        txtHoraAtual.setText(AppUtil.getHoraAtual());
-        btnEmblocar.setOnClickListener(new View.OnClickListener() {
+        //Add Click Listerner
+        listarCard.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent iTelaEmblocar = new Intent(MainActivity.this, ConsultaActivity.class);
-                startActivity(iTelaEmblocar);
+                Intent iTelaListar = new Intent(MainMaterialActivity.this, ConsultarBlocosActivity.class);
+                startActivity(iTelaListar);
             }
         });
 
-        btnAtualiza.setOnClickListener(new View.OnClickListener() {
+        configurarCard.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                AtualizarSistema task = new AtualizarSistema();
-                getLocal();
-                task.execute();
-            }
-        });
-
-        btnConfigurar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent iTelaConfigurar = new Intent(MainActivity.this, ConfiguracaoActivity.class);
+                Intent iTelaConfigurar = new Intent(MainMaterialActivity.this, ConfiguracaoActivity.class);
                 startActivity(iTelaConfigurar);
             }
         });
 
+        atualizarCard.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                getLocal();
+                String a = local.substring(0,1);
 
+                if(a.equals("0") || a.equals("n")){
+                    Toast.makeText(getApplicationContext(), "Falta configuração de ip e porta", Toast.LENGTH_SHORT).show();
+                }else {
+                    MainMaterialActivity.AtualizarSistema task = new MainMaterialActivity.AtualizarSistema();
+                    task.execute();
+                }
+
+            }
+        });
+
+        emblocarCard.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent iTelaEmblocar = new Intent(MainMaterialActivity.this, ConsultaActivity.class);
+                startActivity(iTelaEmblocar);
+            }
+        });
     }
 
     public String getLocal(){
@@ -107,9 +115,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class AtualizarSistema extends AsyncTask<String,String,String>{
+    private class AtualizarSistema extends AsyncTask<String,String,String> {
 
-        ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        ProgressDialog progressDialog = new ProgressDialog(MainMaterialActivity.this);
+
 
         HttpURLConnection conn;
         URL url = null;
@@ -117,25 +126,26 @@ public class MainActivity extends AppCompatActivity {
         Uri.Builder builder;
 
 
-        public AtualizarSistema(){
-
-        }
-
         @Override
         protected void onPreExecute(){
 
-            Log.i("WebService", "AtualizarSistema()");
+            try {
+                    progressDialog.setMessage("Atualizando Sistema Aguarde....");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                }
+            catch (Exception e){
 
-            progressDialog.setMessage("Atualizando Sistema Aguarde....");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+                Log.e("WebService", "AtualizarSistema"+e.getMessage());
+            }
+
         }
 
         @Override
         protected String doInBackground(String... strings) {
             try{
-              url = new URL(Servidor);
-              //url = new URL(AppUtil.URL_WEB_SERVICE);
+                url = new URL(Servidor);
+                //url = new URL(AppUtil.URL_WEB_SERVICE);
             }catch (MalformedURLException e){
                 Log.e("WebService","MalformedURLException - "+e.getMessage());
             }catch (Exception error){
@@ -169,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
                 int response_code = conn.getResponseCode();
 
+
                 if(response_code == HttpURLConnection.HTTP_OK){
 
                     InputStream input = conn.getInputStream();
@@ -180,9 +191,11 @@ public class MainActivity extends AppCompatActivity {
                         result.append(line);
                     }
                     return (result.toString());
-                }else{
+                }
+                else{
+
                     return ("Error de conexão");
-               }
+                }
             }catch (Exception e){
                 Log.e("Webservice","IOException -"+e.getMessage());
                 return e.toString();
@@ -213,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                         controller.salvar(obj);
                     }
                 }else {
-                  AppUtil.showMensagem(context,"Nenhum registro encontrado no momento...");
+                    Toast.makeText(getApplicationContext(), "Nenhum registro encontrado no momento...", Toast.LENGTH_SHORT).show();
                 }
             }catch (JSONException e){
                 Log.e("Webservice","JSONException -"+e.getMessage());
@@ -227,13 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
     }
-
-
-
 
 
 }

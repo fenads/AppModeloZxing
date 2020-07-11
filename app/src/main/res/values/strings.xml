@@ -1,17 +1,33 @@
 <resources>
     <string name="app_name">Emblocamento</string>
-    <string name="txtCriador">Luiz Fernando Silva</string>
+    <string name="txtCriador">By Luiz Fernando Silva</string>
     <string name="DataAtual">30/06/2020</string>
     <string name="HoraAtual">16:42</string>
     <string name="btnEmblocar">Emblocamento</string>
     <string name="btnVoltar">Menu principal</string>
     <string name="btnCapturar">Iniciar leitura de códigos</string>
     <string name="txtCodigoLido">Código Lido</string>
-    <string name="txtCodigo"></string>
+    <string name="txtCodigo" />
     <string name="txtCodigoBloco">Código Bloco</string>
-    <string name="txtBloco"></string>
-    <string name="btnAtualizar">Atualizar Dados</string>
+    <string name="txtBloco" />
+    <string name="btnAtualizar">Atualizar Base</string>
     <string name="swhflash">swhFlash</string>
     <string name="turn_off_flashlight">turn_off_flashlight</string>
     <string name="turn_on_flashlight">turn_on_flashlight</string>
+    <string name="txtAlgodoeira">Algodoeira</string>
+    <string name="btnConfSalvar">Salvar</string>
+    <string name="btnConfVisualizar">Visualizar</string>
+    <string name="btnConfLimpar">Limpar</string>
+    <string name="edtConfIp">IP</string>
+    <string name="edtConfPorta">Porta</string>
+    <string name="btnconfigurar">Configurações</string>
+    <string name="txtWebService">WebService</string>
+    <string name="descEmblocar">Consulta de blocos com código de barras</string>
+    <string name="descAtualizar">Atualiza base de dados local</string>
+    <string name="descConfigurar">Configurar conexão com a base de dados</string>
+    <string name="btnListarBlocos">Listar Blocos</string>
+    <string name="descListarBlocos">Detalhamento dos blocos</string>
+    <string name="txtrvcodigo">txtRvCodigo</string>
+    <string name="txtrvbloco">txtRVBloco</string>
+    <string name="edtBuscar">buscar</string>
 </resources>

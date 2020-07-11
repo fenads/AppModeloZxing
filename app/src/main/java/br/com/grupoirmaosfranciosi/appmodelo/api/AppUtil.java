@@ -9,10 +9,14 @@ import android.widget.Toast;
 
 public class AppUtil {
 
+
     public static final int TIME_SPLASH = 5 * 1000;
     public static final String URL_WEB_SERVICE = "http://192.168.0.108/api/Bloco/Recuperar";
     public static final int CONNECTION_TIMEOUT = 30000; // 30 segundos
     public static final int READ_TIMEOUT = 30000; // 30 segundos
+    public static final String PREF_APP = "Conf";
+    public static final String LOG_APP = "SIS_LOG";
+
 
     public static String getDataAtual(){
         String dataAtual = "00/00/0000";
@@ -68,5 +72,6 @@ public class AppUtil {
 
         Toast.makeText(context,mensagem,Toast.LENGTH_LONG).show();
     }
+
 
 }

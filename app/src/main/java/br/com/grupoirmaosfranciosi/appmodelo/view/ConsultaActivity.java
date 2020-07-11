@@ -44,7 +44,7 @@ public class ConsultaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent iTelaPrincipal = new Intent(ConsultaActivity.this,MainActivity.class);
+                Intent iTelaPrincipal = new Intent(ConsultaActivity.this,MainMaterialActivity.class);
                 startActivity(iTelaPrincipal);
             }
         });
@@ -62,7 +62,6 @@ public class ConsultaActivity extends AppCompatActivity {
 
     public void escanear(){
         IntentIntegrator intent = new IntentIntegrator(this);
-        //intent.forSupportFragment();
         intent.setCaptureActivity(TorchOnCaptureActivity.class);
         intent.addExtra(appConstants.CAMERA_FLASH_ON,false);
         intent.setOrientationLocked(false);
@@ -87,7 +86,7 @@ public class ConsultaActivity extends AppCompatActivity {
             }else {
 
                 edtBloco.setText(result.getContents());
-                //edtBloco.setText(result.getContents().toString());
+
                 Bloco();
 
             }
@@ -112,7 +111,7 @@ public class ConsultaActivity extends AppCompatActivity {
                 emblocamento = controller.Buscar(emblocamento);
                 String retorno = emblocamento.getNUM_BLOCO().toString();
                 txtBloco.setText(retorno);
-                //txtBloco.setText(emblocamento.getNUM_BLOCO().toString());
+
                 if (retorno.equals("0") ){
                     txtBloco.setText("Bloco não localizado");
                     txtBloco.setTextColor(getResources().getColor(R.color.alerta));
@@ -125,8 +124,5 @@ public class ConsultaActivity extends AppCompatActivity {
 
 
     }
-
-
-//teste
 
 }

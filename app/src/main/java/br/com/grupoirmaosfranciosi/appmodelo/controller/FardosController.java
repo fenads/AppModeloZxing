@@ -26,9 +26,8 @@ public class FardosController extends DataSource {
         dados = new ContentValues();
 
         dados.put(EmblocamentoDataModel.getCodBarraGs1(),obj.getCOD_BARRA_GS1());
-        dados.put(EmblocamentoDataModel.getNumFardo(),obj.getNUM_FARDO());
         dados.put(EmblocamentoDataModel.getNumBloco(),obj.getNUM_BLOCO());
-
+        dados.put(EmblocamentoDataModel.getNumFardo(),obj.getNUM_FARDO());
         sucesso = insert(EmblocamentoDataModel.getTABELA(),dados);
 
         return sucesso;
@@ -51,8 +50,8 @@ public class FardosController extends DataSource {
         dados = new ContentValues();
 
         dados.put(EmblocamentoDataModel.getCodBarraGs1(), obj.getCOD_BARRA_GS1());
-        dados.put(EmblocamentoDataModel.getNumFardo(), obj.getNUM_FARDO());
         dados.put(EmblocamentoDataModel.getNumBloco(), obj.getNUM_BLOCO());
+        dados.put(EmblocamentoDataModel.getNumFardo(), obj.getNUM_FARDO());
 
         sucesso = alterar(EmblocamentoDataModel.getTABELA(), dados);
 
@@ -62,7 +61,7 @@ public class FardosController extends DataSource {
 
     public List<Emblocamento> listar(){
 
-        return getAllBlocos();
+        return list(EmblocamentoDataModel.getTABELA());
     }
 
     public Emblocamento Buscar(Emblocamento obj){
